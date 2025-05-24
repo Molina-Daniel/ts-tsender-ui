@@ -8,7 +8,7 @@ const useAirdropFrom = () => {
   const chainId = useChainId();
   const config = useConfig();
   const account = useAccount();
-  const { writeContractAsync } = useWriteContract();
+  const { writeContractAsync, isPending } = useWriteContract();
 
   const [tokenAddress, setTokenAddress] = useState<string>("");
   const [recipients, setRecipients] = useState<string>("");
@@ -137,6 +137,7 @@ const useAirdropFrom = () => {
       recipients,
       amounts,
       totalAmount,
+      isPending,
     },
     actions: {
       setTokenAddress,

@@ -1,11 +1,12 @@
 "use client";
 
 import InputField from "@/app/components/ui/InputField";
+import SpinnerSVG from "@/app/components/ui/SpinnerSVG";
 import useAirdropFrom from "./useAirdropFrom";
 
 export default function AirdropForm() {
   const {
-    state: { tokenAddress, recipients, amounts, totalAmount },
+    state: { tokenAddress, recipients, amounts, totalAmount, isPending },
     actions: { setTokenAddress, setRecipients, setAmounts, handleSubmit },
   } = useAirdropFrom();
 
@@ -36,7 +37,14 @@ export default function AirdropForm() {
         className="border rounded-2xl w-full py-3 bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors cursor-pointer"
         onClick={handleSubmit}
       >
-        Send Tokens
+        {isPending ? (
+          <span className="flex items-center justify-center">
+            <SpinnerSVG />
+            Confirming in wallet...
+          </span>
+        ) : (
+          "Send Tokens"
+        )}
       </button>
     </div>
   );
