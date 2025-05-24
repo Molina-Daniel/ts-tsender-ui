@@ -4,7 +4,6 @@ export function calculateTotal(amounts: string) {
     .map((amt) => amt.trim())
     .filter((amt) => amt !== "")
     .map((amt) => parseFloat(amt));
-  console.log("amountsArray", amountsArray);
 
   return amountsArray
     .filter((num) => !Number.isNaN(num))

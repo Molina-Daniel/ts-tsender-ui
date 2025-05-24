@@ -20,7 +20,7 @@ export default function AirdropForm() {
   } = useAirdropFrom();
 
   return (
-    <div className="w-full max-w-2xl min-w-full xl:min-w-lg flex flex-col gap-6 p-6">
+    <div className="w-full max-w-4xl min-w-full xl:min-w-lg flex flex-col gap-6 p-6">
       <InputField
         label="Token Address"
         placeholder="0x"

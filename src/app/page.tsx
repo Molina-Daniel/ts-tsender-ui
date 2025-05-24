@@ -1,9 +1,9 @@
-import AirdropForm from "@/app/components/AirdropFrom";
+import HomeContent from "@/app/components/HomeContent";
 
 export default function Home() {
   return (
     <div>
-      <AirdropForm />
+      <HomeContent />
     </div>
   );
 }
