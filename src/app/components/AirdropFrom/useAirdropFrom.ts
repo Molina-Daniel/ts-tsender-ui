@@ -1,18 +1,49 @@
 import { useEffect, useMemo, useState } from "react";
-import { useChainId, useConfig, useAccount, useWriteContract } from "wagmi";
+import {
+  useChainId,
+  useConfig,
+  useAccount,
+  useWriteContract,
+  useReadContracts,
+} from "wagmi";
 import { readContract, waitForTransactionReceipt } from "@wagmi/core";
 import { chainsToTSender, tsenderAbi, erc20Abi } from "@/constants";
 import { calculateTotal } from "@/utils";
 
 const useAirdropFrom = () => {
+  const [tokenAddress, setTokenAddress] = useState<string>("");
+  const [recipients, setRecipients] = useState<string>("");
+  const [amounts, setAmounts] = useState<string>("");
+
   const chainId = useChainId();
   const config = useConfig();
   const account = useAccount();
   const { writeContractAsync, isPending } = useWriteContract();
+  const { data } = useReadContracts({
+    contracts: [
+      {
+        address: tokenAddress as `0x${string}`,
+        abi: erc20Abi,
+        functionName: "name",
+      },
+      {
+        address: tokenAddress as `0x${string}`,
+        abi: erc20Abi,
+        functionName: "decimals",
+      },
+      {
+        address: tokenAddress as `0x${string}`,
+        abi: erc20Abi,
+        functionName: "balanceOf",
+        args: [account.address],
+      },
+    ],
+  });
 
-  const [tokenAddress, setTokenAddress] = useState<string>("");
-  const [recipients, setRecipients] = useState<string>("");
-  const [amounts, setAmounts] = useState<string>("");
+  const tokenName = data && (data[0].result as string);
+  const tokenDecimals = data && (data[1].result as number);
+  const tokenBalance = data && (data[2].result as bigint);
+
   const totalAmount = useMemo(() => calculateTotal(amounts), [amounts]);
 
   async function getApprovedAmount(
@@ -167,6 +198,9 @@ const useAirdropFrom = () => {
       amounts,
       totalAmount,
       isPending,
+      tokenName,
+      tokenDecimals,
+      tokenBalance,
     },
     actions: {
       setTokenAddress,
