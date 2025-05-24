@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useChainId, useConfig, useAccount, useWriteContract } from "wagmi";
 import { readContract, waitForTransactionReceipt } from "@wagmi/core";
 import { chainsToTSender, tsenderAbi, erc20Abi } from "@/constants";
@@ -131,6 +131,35 @@ const useAirdropFrom = () => {
       alert("Transaction failed. Please check the console for details.");
     }
   }
+
+  useEffect(() => {
+    if (tokenAddress) {
+      localStorage.setItem("tokenAddress", tokenAddress);
+    }
+  }, [tokenAddress]);
+
+  useEffect(() => {
+    if (recipients) {
+      localStorage.setItem("recipients", recipients);
+    }
+  }, [recipients]);
+
+  useEffect(() => {
+    if (amounts) {
+      localStorage.setItem("amounts", amounts);
+    }
+  }, [amounts]);
+
+  useEffect(() => {
+    const savedTokenAddress = localStorage.getItem("tokenAddress");
+    const savedRecipients = localStorage.getItem("recipients");
+    const savedAmounts = localStorage.getItem("amounts");
+
+    if (savedTokenAddress) setTokenAddress(savedTokenAddress);
+    if (savedRecipients) setRecipients(savedRecipients);
+    if (savedAmounts) setAmounts(savedAmounts);
+  }, []);
+
   return {
     state: {
       tokenAddress,
