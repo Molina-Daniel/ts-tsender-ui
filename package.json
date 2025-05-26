@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "anvil": "anvil --load-state tsender-deployed.json",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:unit": "vitest"
+    "anvil": "anvil --load-state tsender-deployed.json",
+    "test:unit": "vitest",
+    "test:cache": "pnpm synpress",
+    "test:e2e": "pnpm exec playwright test"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.2.5",
